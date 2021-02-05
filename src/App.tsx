@@ -1,58 +1,27 @@
-import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
-import './App.css';
+import React, { FC } from "react";
+import Router from "./Router";
+import "./styles/App.scss";
+import "react-calendar/dist/Calendar.css";
+import { useSelector } from "react-redux";
+import { getIsSignedIn } from "./reducks/users/selectors";
+import { getGroupId } from "./reducks/groups/selectors";
+import { Footer } from "./footer/index";
+import { Header } from "./header/index";
 
-function App() {
+const App: FC = () => {
+  const selector = useSelector((state) => state);
+  const isSignedIn = getIsSignedIn(selector);
+  const groupId = getGroupId(selector);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
+    <div className="wrapper">
+      <Header />
+      <main className="main">
+        <Router />
+      </main>
+      {isSignedIn && groupId !== "" && <Footer />}
     </div>
   );
-}
+};
 
 export default App;
